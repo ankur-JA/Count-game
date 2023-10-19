@@ -18,7 +18,7 @@ function App() {
       }}>
           <Typography variant='h5' style={{ textAlign: 'center'}}>Welcome to My count Game</Typography>
           <br />
-          <ButtonC></ButtonC>
+          <ButtonC count={count} setCount={setCount}></ButtonC>
           <Count count={count} setCount={setCount}></Count>
       </Card>
     </div>
@@ -32,18 +32,29 @@ function ButtonC({count, setCount}) {
       display: 'flex',
       justifyContent: 'space-between'
     }}>
-      <div>
-        <Button variant="contained"
-        onClick={() => {
-          setCount(count+1)
-        }}>up-count</Button>
-      </div>
-      <div>
-        <Button variant="contained" 
-        onClick={() => {
-          setCount(count-1)
-        }}>down-count</Button>
-      </div>
+        <Upcount count={count} setCount={setCount}/>
+        <Downcount count={count} setCount={setCount}/>
+    </div>
+  )
+}
+
+function Upcount({count, setCount}) {
+  return (
+    <div>
+      <Button variant="contained"
+      onClick={() => {
+        setCount(count + 1);
+      }}>up-count</Button>
+    </div>
+  )
+}
+
+function Downcount({count, setCount}) {
+  return (
+    <div>
+      <Button variant="contained" onClick={() => {
+        setCount(count - 1);
+      }}>down-count</Button>
     </div>
   )
 }
@@ -51,7 +62,9 @@ function ButtonC({count, setCount}) {
 function Count({count, setCount}) {
   return(
     <div>
-      <Typography style={{textAlign: 'center', marginTop: "30px"}}>{count}</Typography>
+      <Typography style={{textAlign: 'center', marginTop: "30px"}}>
+        {count}
+      </Typography>
     </div>
   )
 }
