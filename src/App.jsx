@@ -1,72 +1,82 @@
 import { Card, Typography } from '@mui/material'
 import Button from '@mui/material/Button';
 import { useState } from 'react'
+import { RecoilRoot, atom, useSetRecoilState, useRecoilValue } from 'recoil';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div style={{
-      display: 'flex',
-      justifyContent: 'center',
-      marginTop: "200px"
-    }}>
-      <Card style={{
-        width: "600px",
-        height: "200px",
-        padding: "30px"
+    <RecoilRoot>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: "200px"
       }}>
-          <Typography variant='h5' style={{ textAlign: 'center'}}>Welcome to My count Game</Typography>
-          <br />
-          <ButtonC count={count} setCount={setCount}></ButtonC>
-          <Count count={count} setCount={setCount}></Count>
-      </Card>
-    </div>
+        <Card style={{
+          width: "600px",
+          height: "200px",
+          padding: "30px"
+        }}>
+            <Typography variant='h5' style={{ textAlign: 'center'}}>Welcome to My count Game</Typography>
+            <br />
+            <ButtonC />
+            <Count />
+        </Card>
+      </div>
+    </RecoilRoot>
   )
 }
 
 
-function ButtonC({count, setCount}) {
+function ButtonC() {
   return (
     <div style={{
       display: 'flex',
       justifyContent: 'space-between'
     }}>
-        <Upcount count={count} setCount={setCount}/>
-        <Downcount count={count} setCount={setCount}/>
+        <Upcount />
+        <Downcount />
     </div>
   )
 }
 
-function Upcount({count, setCount}) {
+function Upcount() {
+  const setCount = useSetRecoilState(stateCount);
   return (
     <div>
       <Button variant="contained"
       onClick={() => {
-        setCount(count + 1);
+        setCount(existingcount => existingcount + 1);
       }}>up-count</Button>
     </div>
   )
 }
 
-function Downcount({count, setCount}) {
+function Downcount() {
+  const setCount = useSetRecoilState(stateCount);
   return (
     <div>
       <Button variant="contained" onClick={() => {
-        setCount(count - 1);
+        setCount(existingcount => existingcount - 1);
       }}>down-count</Button>
     </div>
   )
 }
 
-function Count({count, setCount}) {
+function Count() {
+  const count = useRecoilValue(stateCount);
   return(
-    <div>
-      <Typography style={{textAlign: 'center', marginTop: "30px"}}>
-        {count}
-      </Typography>
-    </div>
-  )
-}
+      <div>
+        <Typography style={{textAlign: 'center', marginTop: "30px"}}>
+          {count}
+        </Typography>
+      </div>
+    )
+  }
 
 export default App
+
+const stateCount = atom({
+  key: 'stateCount',
+  default: 0,
+});
